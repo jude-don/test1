@@ -79,4 +79,5 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
+      - say-hello
       - smoke_test
