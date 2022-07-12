@@ -29,30 +29,49 @@ jobs:
   #               --template-file template.yml \
   #               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
   #               --region us-east-1
+
   # Exercise: Config and Deployment
     
-  configure_infrastructure: 
+  # configure_infrastructure: 
+  #   docker:
+  #     - image: python:3.7-alpine3.11
+  #   steps:
+  #     - checkout
+  #     - add_ssh_keys:
+  #         fingerprints: ["7e:73:e4:d0:d7:2c:f5:3a:2f:4d:d4:fa:53:76:0e:16"] # You can get this ID in the section where you registered the SSH Key
+  #     - run:
+  #         name: Install dependencies
+  #         command: |
+  #           # install the dependencies needed for your playbook
+  #           apk add --update ansible 
+  #     - run:
+  #         name: Ensure your key is not publicly viewable.
+  #         command: |
+  #           chmod 400 udacity.pem
+  #     - run:
+  #         name: Run Playbook and Configure server
+  #         command: |
+  #           ansible-playbook -i inventory main-4.yml
+
+  # Smoke Tests
+
+  smoke_test: 
     docker:
-      - image: python:3.7-alpine3.11
+      - image: alpine:latest
     steps:
       - checkout
-      - add_ssh_keys:
-          fingerprints: ["7e:73:e4:d0:d7:2c:f5:3a:2f:4d:d4:fa:53:76:0e:16"] # You can get this ID in the section where you registered the SSH Key
-      - run:
-          name: Install dependencies
-          command: |
-            # install the dependencies needed for your playbook
-            apk add --update ansible 
-      - run:
-          name: Ensure your key is not publicly viewable.
-          command: |
-            chmod 400 udacity.pem
-      - run:
-          name: Run Playbook and Configure server
-          command: |
-            ansible-playbook -i inventory main-4.yml
-
-
+   - run: apk add --update curl
+   - run:
+       name: smoke test
+       command: |
+         URL="https://blog.udacity.com/"
+         # Test if website exists
+         if curl -s --head ${URL} 
+         then
+           return 0
+         else
+           return 1
+         fi     
 
 
 # Invoke jobs via workflows
@@ -60,4 +79,4 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - configure_infrastructure
+      - smoke_test
