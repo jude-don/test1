@@ -45,7 +45,7 @@ jobs:
       - run:
           name: Run Playbook and Configure server
           command: |
-            ansible-playbook -i inventory main-4.yml
+            ansible-playbook -i inventory.txt main-4.yml
 
 
 
@@ -56,5 +56,4 @@ workflows:
   say-hello-workflow:
     jobs:
       - say-hello
-      # - create_infrastructure
       - configure_infrastructure
