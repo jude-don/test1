@@ -30,15 +30,7 @@ jobs:
   #               --stack-name myStack-${CIRCLE_WORKFLOW_ID:0:5} \
   #               --region us-east-1
   # Exercise: Config and Deployment
-  logging_key:
-    docker:
-      - image: python:3.7-alpine3.11
-    steps:
-      - checkout
-      - run:
-          name: Ensure your key is not publicly viewable.
-          command: |
-            chmod 400 udacity.pem
+    
   configure_infrastructure: 
     docker:
       - image: python:3.7-alpine3.11
@@ -52,6 +44,10 @@ jobs:
             # install the dependencies needed for your playbook
             apk add --update ansible 
       - run:
+          name: Ensure your key is not publicly viewable.
+          command: |
+            chmod 400 udacity.pem
+      - run:
           name: Run Playbook and Configure server
           command: |
             ansible-playbook -i inventory main-4.yml
@@ -64,8 +60,4 @@ jobs:
 workflows:
   say-hello-workflow:
     jobs:
-      - logging_key
-      - configure_infrastructure:
-          requires:
-            - logging_key
-
+      - configure_infrastructure
