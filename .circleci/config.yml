@@ -111,12 +111,27 @@ jobs:
             return 1
       - run: destroy_environment
 
+# Promote to Production Exercise
+  promote_production:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+        - checkout
+        - run:
+            name: Cloudfront Distribution
+            command: |
+              aws cloudformation deploy \
+                --template-file cloudfront.yml \
+                --stack-name production-distro \
+                --parameter-overrides PipelineID="${myawsbucket644752792305}" \ # Name of the S3 bucket you created manaually
+                --tags project=udapeople &
+
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   say-hello-workflow:
     jobs:
       # - create_infrastructure
-      - smoke_test_1
+      - promote_production
           # requires:
           #   - create_infrastructure
