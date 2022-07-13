@@ -109,7 +109,7 @@ jobs:
           name: Test job
           command: |  
             return 1
-      - destroy_environment
+      - run: destroy_environment
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
