@@ -121,10 +121,10 @@ jobs:
             name: Cloudfront Distribution
             command: |
               aws cloudformation deploy \
-                --template-file cloudfront.yml \
-                --stack-name production-distro \
-                --parameter-overrides PipelineID="${myawsbucket644752792305}" \ # Name of the S3 bucket you created manaually
-                --tags project=udapeople &
+              --template-file cloudfront.yml \
+              --stack-name production-distro \
+              --parameter-overrides PipelineID="${myawsbucket644752792305}" \ # Name of the S3 bucket you created manaually
+              --tags project=udapeople &
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
