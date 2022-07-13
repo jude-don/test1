@@ -113,4 +113,6 @@ workflows:
   say-hello-workflow:
     jobs:
       - create_infrastructure
-      - smoke_test_1
+      - smoke_test_1:
+          requires:
+            - create_infrastructure
