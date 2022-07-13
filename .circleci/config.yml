@@ -100,31 +100,31 @@ jobs:
   #             return 1
   #           fi   
 
-#Smoke Test Intentionally Failing
-  # smoke_test_1:
-  #   docker:
-  #     - image: alpine:latest
-  #   steps:
-  #     - run:
-  #         name: Test job
-  #         command: |  
-  #           return 1
-  #     - run: destroy_environment
+  #Smoke Test Intentionally Failing
+    # smoke_test_1:
+    #   docker:
+    #     - image: alpine:latest
+    #   steps:
+    #     - run:
+    #         name: Test job
+    #         command: |  
+    #           return 1
+    #     - run: destroy_environment
 
-# Promote to Production Exercise
-promote_production:
-  docker:
-    - image: amazon/aws-cli
-  steps:
-      - checkout
-      - run:
-          name: Cloudfront Distribution
-          command: |
-            aws cloudformation deploy \
-            --template-file cloudfront.yml \
-            --stack-name production-distro \
-            --parameter-overrides PipelineID="myawsbucket644752792305" \ 
-            --tags project=udapeople &
+  # Promote to Production Exercise
+  promote_production:
+    docker:
+      - image: amazon/aws-cli
+    steps:
+        - checkout
+        - run:
+            name: Cloudfront Distribution
+            command: |
+              aws cloudformation deploy \
+              --template-file cloudfront.yml \
+              --stack-name production-distro \
+              --parameter-overrides PipelineID="myawsbucket644752792305" \ 
+              --tags project=udapeople &
 
 
 # Executes the bucket.yml - Deploy an S3 bucket, and interface with that bucket to synchronize the files between local and the bucket.
