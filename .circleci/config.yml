@@ -123,7 +123,7 @@ jobs:
               aws cloudformation deploy \
               --template-file cloudfront.yml \
               --stack-name production-distro \
-              --parameter-overrides PipelineID="${S3_MYBUCKET}}" \ 
+              --parameter-overrides PipelineID= ${S3_MYBUCKET}} \ 
               --tags project=udapeople &
 
 
